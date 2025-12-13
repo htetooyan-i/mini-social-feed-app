@@ -1,9 +1,18 @@
 import { StyleSheet, View, SafeAreaView, Text, FlatList } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Button from '../components/Button';
-import PostCard from "../components/PostCard";   
+import COLORS from "../constants/colors";
+import PostCard from "../components/PostCard";  
+import { RootStackParamList } from "../navigations/types";
+import { usePosts } from "../context/PostContext";
 
-function FeedScreen({ navigation, posts }: any) {
+type Props = NativeStackScreenProps<RootStackParamList, 'Feed'>;
+
+function FeedScreen({ navigation }: Props) {
+
+    const { posts } = usePosts();
+    
     return (
         <SafeAreaView style={styles.screen_container}>
 
@@ -37,7 +46,7 @@ const styles = StyleSheet.create({
     },
 
     header_continer: {
-        backgroundColor: '#84e6caff',
+        backgroundColor: COLORS.primary,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -48,15 +57,9 @@ const styles = StyleSheet.create({
 
     screen_container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: COLORS.background,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-    },
-
-    // component styles
-
-    creat_post_button: {
-        backgroundColor: 'blue',
     },
 
     // text styles

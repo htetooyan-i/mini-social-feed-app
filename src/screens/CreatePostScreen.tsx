@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 import Button from '../components/Button'
+import COLORS from '../constants/colors';
+import { RootStackParamList } from '../navigations/types';
+import { usePosts } from "../context/PostContext";
 
-function CreatePostScreen({ navigation, addPost }: any) {
+type Props = NativeStackScreenProps<RootStackParamList, 'CreatePost'>
+
+function CreatePostScreen({ navigation }: Props) {
+
+    {/* Get addPost from usePosts hook */}
+    const { addPost } = usePosts();
 
     {/* Form State */}
     const [title, onChangeTitle] = React.useState('');
@@ -41,17 +50,16 @@ const styles = StyleSheet.create({
     },
 
     form_container: {
-        color: 'black',
         padding: 20,
         borderWidth: 1,
-        borderColor: 'black',
+        borderColor: COLORS.borderPrimary,
         borderRadius: 10,
         margin: 20,
     },
 
     input_field: {
         borderBottomWidth: 1,
-        borderBottomColor: 'gray',
+        borderBottomColor: COLORS.borderSecondary,
         marginBottom: 15,
         fontSize: 16,
         paddingVertical: 5,

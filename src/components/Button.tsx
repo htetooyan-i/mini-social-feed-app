@@ -1,6 +1,8 @@
 import React from 'react';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 
+import COLORS from '../constants/colors';
+
 type Props = {
     title: string,
     onPress: () => void,
@@ -18,14 +20,14 @@ function Button({title, onPress}: Props) {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: 'black',
+        backgroundColor: COLORS.secondary,
         padding: 10,
         borderRadius: 5,
 
     },
 
     buttonText: {
-        color: 'white',
+        color: COLORS.textSecondary,
         fontSize: 16,
         textAlign: 'center',
     },
