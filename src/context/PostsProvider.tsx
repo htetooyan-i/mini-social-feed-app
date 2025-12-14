@@ -1,17 +1,19 @@
-// context/PostsContext.tsx
 import { createContext, useContext, useState } from "react";
-import { Post } from "../types/Post";
+import { Post } from "../models/Post";
 
 type PostsContextType = {
   posts: Post[];
   addPost: (post: Post) => void;
 };
 
-const PostsContext = createContext<PostsContextType | null>(null);
+export const PostsContext = createContext<PostsContextType | null>(null);
 
-export function PostsProvider({ children }: { children: React.ReactNode }) {
+{/* Create a posts provider that wrap the app */}
+export function PostsProvider({ children } : { children: React.ReactNode}) {
+
   const [posts, setPosts] = useState<Post[]>([]);
 
+  {/* add new post at index 0 to current posts array */}
   const addPost = (post: Post) => {
     setPosts(prev => [post, ...prev]);
   };
@@ -21,12 +23,5 @@ export function PostsProvider({ children }: { children: React.ReactNode }) {
       {children}
     </PostsContext.Provider>
   );
-}
-
-export function usePosts() {
-  const context = useContext(PostsContext);
-  if (!context) {
-    throw new Error("usePosts must be used within PostsProvider");
-  }
-  return context;
+  
 }

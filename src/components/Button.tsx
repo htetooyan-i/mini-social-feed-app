@@ -1,7 +1,8 @@
 import React from 'react';
 import { Pressable, View, Text, StyleSheet } from 'react-native';
 
-import COLORS from '../constants/colors';
+import { darkColors, lightColors} from '../constants/colors';
+import { useSystemTheme } from "../hooks/useSystemTheme";
 
 type Props = {
     title: string,
@@ -9,10 +10,15 @@ type Props = {
 }
 
 function Button({title, onPress}: Props) {
+
+    {/* Check scheme and set color set */}
+    const scheme = useSystemTheme();
+    const COLORS = scheme === 'dark' ? darkColors : lightColors;
+
     return (
         <View>
-            <Pressable style={styles.button} onPress={onPress}>
-                <Text style={styles.buttonText}>{title}</Text>
+            <Pressable style={[styles.button, { backgroundColor: COLORS.secondary}]} onPress={onPress}>
+                <Text style={[styles.buttonText, { color: COLORS.text}]}>{title}</Text>
             </Pressable>
         </View>
     );
@@ -20,14 +26,12 @@ function Button({title, onPress}: Props) {
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: COLORS.secondary,
         padding: 10,
         borderRadius: 5,
 
     },
 
     buttonText: {
-        color: COLORS.textSecondary,
         fontSize: 16,
         textAlign: 'center',
     },

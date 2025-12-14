@@ -1,30 +1,34 @@
-import { StyleSheet, View, SafeAreaView, Text, FlatList } from "react-native";
+import { StyleSheet, View, SafeAreaView, Text, FlatList, useColorScheme, Appearance } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Button from '../components/Button';
-import COLORS from "../constants/colors";
+import { darkColors, lightColors } from "../constants/colors";
 import PostCard from "../components/PostCard";  
 import { RootStackParamList } from "../navigations/types";
-import { usePosts } from "../context/PostContext";
+import { usePosts } from "../hooks/usePosts";
+import { useSystemTheme } from "../hooks/useSystemTheme";
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Feed'>;
 
 function FeedScreen({ navigation }: Props) {
 
     const { posts } = usePosts();
-    
-    return (
-        <SafeAreaView style={styles.screen_container}>
 
+    {/* Check scheme and set color set */}
+    const scheme = useSystemTheme();
+    const COLORS = scheme === 'dark' ? darkColors : lightColors;
+
+    return (
+        <SafeAreaView style={[styles.screen_container, { backgroundColor: COLORS.background}]}>
             {/* Header Section */}
-            <View style={styles.header_continer}>
-                <Text style={styles.app_title}>Social App</Text>
+            <View style={[styles.header_continer, { backgroundColor: COLORS.primary}]}>
+                <Text style={[styles.app_title, { color: COLORS.text}]}>Social App</Text>
                 <Button title="Create Post" onPress={() => navigation.navigate('CreatePost')} />
             </View>
 
             {/* Content Section */}
             <FlatList
-                style={styles.content_container}
+                style={[styles.content_container]}
                 data={posts}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({item}) => (
@@ -46,7 +50,6 @@ const styles = StyleSheet.create({
     },
 
     header_continer: {
-        backgroundColor: COLORS.primary,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -57,7 +60,6 @@ const styles = StyleSheet.create({
 
     screen_container: {
         flex: 1,
-        backgroundColor: COLORS.background,
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
     },

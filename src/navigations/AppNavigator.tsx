@@ -1,6 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
+import { useColorScheme } from "react-native";
 
 import { RootStackParamList } from "./types";
 import FeedScreen from "../screens/FeedScreen";
@@ -19,14 +20,17 @@ const CreatePostOptions: NativeStackNavigationOptions = {
 };
 
 function AppNavigator() {
-    return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="Feed">
-                <Stack.Screen name="Feed" component={FeedScreen} options={FeedOptions} />
-                <Stack.Screen name="CreatePost" component={CreatePostScreen} options={CreatePostOptions} />
-            </Stack.Navigator>
-        </NavigationContainer>
-    );
+
+  const scheme = useColorScheme();
+
+  return (
+      <NavigationContainer theme={scheme === "dark" ? DarkTheme : DefaultTheme}>
+          <Stack.Navigator initialRouteName="Feed">
+              <Stack.Screen name="Feed" component={FeedScreen} options={FeedOptions} />
+              <Stack.Screen name="CreatePost" component={CreatePostScreen} options={CreatePostOptions} />
+          </Stack.Navigator>
+      </NavigationContainer>
+  );
 }
 
 export default AppNavigator;

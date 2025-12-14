@@ -1,20 +1,29 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+import { darkColors, lightColors} from '../constants/colors';
+import { useSystemTheme } from "../hooks/useSystemTheme";
+
 type PostCardProps = {
     title: string,
     body: string,
 }
 
 function PostCard({title, body}: PostCardProps) {
+
+
+    {/* Check scheme and set color set */}
+    const scheme = useSystemTheme();
+    const COLORS = scheme === 'dark' ? darkColors : lightColors;
+
     return (
-        <View style={styles.post_card}>
+        <View style={[styles.post_card, { borderColor: COLORS.borderPrimary}]}>
 
             {/* Post Title */}
-            <Text style={{fontSize: 18, fontWeight: 'bold', marginVertical: 10}}>{ title }</Text>
+            <Text style={{fontSize: 18, fontWeight: 'bold', marginVertical: 10, color: COLORS.text}}>{ title }</Text>
 
             {/* Post Body */}
-            <Text style={{fontSize: 16}}>{ body }</Text>
+            <Text style={{fontSize: 16, color: COLORS.text}}>{ body }</Text>
 
         </View>
     );
