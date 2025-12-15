@@ -1,4 +1,4 @@
-import { StyleSheet, View, SafeAreaView, Text, FlatList, useColorScheme, Appearance } from "react-native";
+import { StyleSheet, View, SafeAreaView, Text, FlatList, Alert } from "react-native";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Button from '../components/Button';
@@ -7,11 +7,13 @@ import PostCard from "../components/PostCard";
 import { RootStackParamList } from "../navigations/types";
 import { usePosts } from "../hooks/usePosts";
 import { useSystemTheme } from "../hooks/useSystemTheme";
+import { logOut } from "../services/auth.service";
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Feed'>;
 
 function FeedScreen({ navigation }: Props) {
 
+    {/* use posts state */}
     const { posts } = usePosts();
 
     {/* Check scheme and set color set */}
@@ -24,6 +26,7 @@ function FeedScreen({ navigation }: Props) {
             <View style={[styles.header_continer, { backgroundColor: COLORS.primary}]}>
                 <Text style={[styles.app_title, { color: COLORS.text}]}>Social App</Text>
                 <Button title="Create Post" onPress={() => navigation.navigate('CreatePost')} />
+                <Button title="Log Out" onPress={() => logOut()} />
             </View>
 
             {/* Content Section */}
@@ -35,6 +38,7 @@ function FeedScreen({ navigation }: Props) {
                     <PostCard title={item.title} body={item.body} />
                 )}
             />
+
         </SafeAreaView>
     );
 }
