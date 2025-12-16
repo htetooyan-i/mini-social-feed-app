@@ -1,9 +1,15 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { collection, onSnapshot } from "firebase/firestore";
+
+import { CreatePostData } from "../models/Post";
+import { createPost, subscribeToPosts } from "../services/post.service";
+import { db } from "../services/firebase";
 import { Post } from "../models/Post";
+
 
 type PostsContextType = {
   posts: Post[];
-  addPost: (post: Post) => void;
+  createPost: (post: CreatePostData) => Promise<void>;
 };
 
 export const PostsContext = createContext<PostsContextType | null>(null);
@@ -13,13 +19,19 @@ export function PostsProvider({ children } : { children: React.ReactNode}) {
 
   const [posts, setPosts] = useState<Post[]>([]);
 
-  {/* add new post at index 0 to current posts array */}
-  const addPost = (post: Post) => {
-    setPosts(prev => [post, ...prev]);
-  };
+  {/* take posts from fireabse and set to posts state */}
+  const setPostsFromFirestore = (posts: Post[]) => {
+    setPosts(posts);
+  }
+  
+  {/* Listen to posts changes in firebase */}
+  useEffect(() => {
+    const unsubscribe = subscribeToPosts(setPostsFromFirestore);
+    return unsubscribe;
+  }, [])
 
   return (
-    <PostsContext.Provider value={{ posts, addPost }}>
+    <PostsContext.Provider value={{ posts, createPost }}>
       {children}
     </PostsContext.Provider>
   );

@@ -7,6 +7,7 @@ import { darkColors, lightColors} from '../constants/colors';
 import { RootStackParamList } from '../navigations/types';
 import { usePosts } from "../hooks/usePosts";
 import { useSystemTheme } from "../hooks/useSystemTheme";
+import { CreatePostData } from '../models/Post';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'CreatePost'>
 
@@ -17,20 +18,22 @@ function CreatePostScreen({ navigation }: Props) {
     const COLORS = scheme === 'dark' ? darkColors : lightColors;
 
     {/* Get addPost from usePosts hook */}
-    const { addPost } = usePosts();
+    const { createPost } = usePosts();
 
     {/* Form State */}
     const [title, onChangeTitle] = React.useState('');
     const [body, onChangeBody] = React.useState('');
 
     {/* Handle Create Post */}
-    const handleCreatePost = () => {
-        addPost({
-            id: Math.random(),
-            title: title,
-            body: body,
-        });
+    const handleCreatePost = (title: string, body: string, userId: string) => {
 
+        const post: CreatePostData = {
+            title,
+            body,
+            userId,
+        };
+
+        createPost(post);
         navigation.goBack();
     };
 
@@ -61,7 +64,7 @@ function CreatePostScreen({ navigation }: Props) {
             ]}
             />
 
-            <Button title="Submit Post" onPress={handleCreatePost} />
+            <Button title="Submit Post" onPress={() => handleCreatePost(title, body, "uF090cbSf7hmahz1BbUsmzgBdfg2")} />
         </View>
     );
 }

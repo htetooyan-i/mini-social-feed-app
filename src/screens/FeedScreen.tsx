@@ -8,6 +8,8 @@ import { RootStackParamList } from "../navigations/types";
 import { usePosts } from "../hooks/usePosts";
 import { useSystemTheme } from "../hooks/useSystemTheme";
 import { logOut } from "../services/auth.service";
+import { updatePost } from "../services/post.service";
+import { UpdatePostData } from "../models/Post";
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Feed'>;
 
@@ -19,6 +21,11 @@ function FeedScreen({ navigation }: Props) {
     {/* Check scheme and set color set */}
     const scheme = useSystemTheme();
     const COLORS = scheme === 'dark' ? darkColors : lightColors;
+
+    const data: UpdatePostData = {
+        title: "New Title",
+        body: "New Body"
+    }
 
     return (
         <SafeAreaView style={[styles.screen_container, { backgroundColor: COLORS.background}]}>
@@ -38,6 +45,8 @@ function FeedScreen({ navigation }: Props) {
                     <PostCard title={item.title} body={item.body} />
                 )}
             />
+
+            <Button title="Log Out" onPress={() => updatePost("d3mBfVi9XM7jX1yShd10", data)} />
 
         </SafeAreaView>
     );
