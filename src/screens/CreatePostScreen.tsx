@@ -1,36 +1,26 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import Button from '../components/Button'
-import { darkColors, lightColors} from '../constants/colors';
-import { RootStackParamList } from '../navigations/types';
+import { HomeParamList } from '../navigations/types';
 import { usePosts } from "../hooks/usePosts";
-import { useSystemTheme } from "../hooks/useSystemTheme";
-import { CreatePostData } from '../models/Post';
+import { PostFormData } from '../models/Post';
+import { useAuth } from '../hooks/useAuth';
+import PostForm from '../components/PostForm';
 
-type Props = NativeStackScreenProps<RootStackParamList, 'CreatePost'>
+type Props = NativeStackScreenProps<HomeParamList, 'CreatePost'>
 
 function CreatePostScreen({ navigation }: Props) {
-
-    {/* Check scheme and set color set */}
-    const scheme = useSystemTheme();
-    const COLORS = scheme === 'dark' ? darkColors : lightColors;
 
     {/* Get addPost from usePosts hook */}
     const { createPost } = usePosts();
 
-    {/* Form State */}
-    const [title, onChangeTitle] = React.useState('');
-    const [body, onChangeBody] = React.useState('');
-
     {/* Handle Create Post */}
-    const handleCreatePost = (title: string, body: string, userId: string) => {
+    const handleCreatePost = (data: {title: string, body: string}) => {
 
-        const post: CreatePostData = {
-            title,
-            body,
-            userId,
+        const post: PostFormData = {
+            title: data.title,
+            body: data.body,
         };
 
         createPost(post);
@@ -38,34 +28,7 @@ function CreatePostScreen({ navigation }: Props) {
     };
 
     return (
-        <View style={[styles.form_container, { borderColor: COLORS.borderPrimary }]}>
-            
-            <TextInput 
-            placeholder="Post Title" 
-            onChangeText={onChangeTitle} 
-            value={title} 
-            style={[
-                styles.input_field, 
-                { borderColor: COLORS.borderSecondary, color: COLORS.text}
-                ]}
-            />
-            
-            <TextInput 
-
-            placeholder="Post Body" 
-            onChangeText={onChangeBody} 
-            value={body}  
-            multiline={true} 
-            numberOfLines={4} 
-            style={[
-                styles.input_field, 
-                styles.body_input_field, 
-                { borderColor: COLORS.borderSecondary, color: COLORS.text }
-            ]}
-            />
-
-            <Button title="Submit Post" onPress={() => handleCreatePost(title, body, "uF090cbSf7hmahz1BbUsmzgBdfg2")} />
-        </View>
+        <PostForm onSubmit={handleCreatePost} submitLabel='Create Post' />
     );
 }
 

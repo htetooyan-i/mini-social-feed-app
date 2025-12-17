@@ -1,29 +1,15 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { useColorScheme } from "react-native";
 
 import AuthScreen from "../screens/AuthScreen";
-import CreatePostScreen from "../screens/CreatePostScreen";
-import FeedScreen from "../screens/FeedScreen";
 import { useAuth } from "../hooks/useAuth";
 import { RootStackParamList } from "./types";
+import TabsNavigator from "./TabsNavigator";
 
+// initalize stack navigator
+//
 const Stack = createNativeStackNavigator<RootStackParamList>();
-
-// screen options for feed screen
-//
-const FeedOptions: NativeStackNavigationOptions = {
-  headerShown: false,
-};
-
-// screen options for createPost screen
-//
-const CreatePostOptions: NativeStackNavigationOptions = {
-  title: 'Create Post',
-  presentation: 'card',
-  headerBackButtonDisplayMode: 'minimal',
-};
 
 function AppNavigator() {
 
@@ -40,8 +26,7 @@ function AppNavigator() {
             {
               user ? ( // show if user is not null
                 <>
-                  <Stack.Screen name="Feed" component={FeedScreen} options={FeedOptions} />
-                  <Stack.Screen name="CreatePost" component={CreatePostScreen} options={CreatePostOptions} />
+                  <Stack.Screen name="Main" component={TabsNavigator} options={{ headerShown: false }}/>
                 </>
                 
               ) : ( // show if user hasn't logged in

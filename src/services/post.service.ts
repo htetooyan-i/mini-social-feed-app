@@ -1,19 +1,25 @@
-import { addDoc, collection, doc, deleteDoc, updateDoc, onSnapshot, serverTimestamp} from "firebase/firestore";
+import { query, orderBy, addDoc, collection, doc, deleteDoc, updateDoc, onSnapshot, serverTimestamp} from "firebase/firestore";
 
-import { CreatePostData, UpdatePostData } from "../models/Post";
-import { db } from "./firebase";
+import { PostFormData } from "../models/Post";
+import { auth, db } from "./firebase";
 import { Post } from "../models/Post";
 
 // create new post
 //
-export const createPost = async (post: CreatePostData) => {
+export const createPost = async (post: PostFormData) => {
 
-    await addDoc(collection(db, "posts"), {
-      title: post.title,
-      body: post.body,
-      userId: post.userId,
-      createdAt: serverTimestamp(),
-    });
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
+
+  await addDoc(collection(db, "posts"), {
+    title: post.title,
+    body: post.body,
+    userId: user.uid,
+    createdAt: serverTimestamp(),
+  });
 
 };
 
@@ -25,15 +31,20 @@ export const deletePost = async (postId: string) => {
 
 // update post in firebase
 //
-export const updatePost = async (postId: string, data: UpdatePostData) => {
+export const updatePost = async (postId: string, data: PostFormData) => {
     return await updateDoc(doc(db, 'posts', postId), data as Partial<Record<string, any>>);
 }
 
 // listener for posts in firebase database
 //
 export function subscribeToPosts( onPostsChange: (posts: Post[]) => void ) {
+  
+    const q = query(
+      collection(db, "posts"),
+      orderBy("createdAt", "desc")
+    );
 
-    return onSnapshot(collection(db, "posts"), (snapshot) => {
+    return onSnapshot(q, (snapshot) => {
         const posts: Post[] = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...(doc.data() as Omit<Post, "id">),

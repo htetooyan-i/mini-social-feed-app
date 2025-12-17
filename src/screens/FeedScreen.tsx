@@ -4,14 +4,11 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import Button from '../components/Button';
 import { darkColors, lightColors } from "../constants/colors";
 import PostCard from "../components/PostCard";  
-import { RootStackParamList } from "../navigations/types";
+import { HomeParamList } from "../navigations/types";
 import { usePosts } from "../hooks/usePosts";
 import { useSystemTheme } from "../hooks/useSystemTheme";
-import { logOut } from "../services/auth.service";
-import { updatePost } from "../services/post.service";
-import { UpdatePostData } from "../models/Post";
 
-type Props = NativeStackScreenProps<RootStackParamList, 'Feed'>;
+type Props = NativeStackScreenProps<HomeParamList, 'Feed'>;
 
 function FeedScreen({ navigation }: Props) {
 
@@ -22,18 +19,12 @@ function FeedScreen({ navigation }: Props) {
     const scheme = useSystemTheme();
     const COLORS = scheme === 'dark' ? darkColors : lightColors;
 
-    const data: UpdatePostData = {
-        title: "New Title",
-        body: "New Body"
-    }
-
     return (
         <SafeAreaView style={[styles.screen_container, { backgroundColor: COLORS.background}]}>
             {/* Header Section */}
-            <View style={[styles.header_continer, { backgroundColor: COLORS.primary}]}>
+            <View style={[styles.header_container, { backgroundColor: COLORS.primary}]}>
                 <Text style={[styles.app_title, { color: COLORS.text}]}>Social App</Text>
                 <Button title="Create Post" onPress={() => navigation.navigate('CreatePost')} />
-                <Button title="Log Out" onPress={() => logOut()} />
             </View>
 
             {/* Content Section */}
@@ -42,11 +33,9 @@ function FeedScreen({ navigation }: Props) {
                 data={posts}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({item}) => (
-                    <PostCard title={item.title} body={item.body} />
+                    <PostCard post={item}/>
                 )}
             />
-
-            <Button title="Log Out" onPress={() => updatePost("d3mBfVi9XM7jX1yShd10", data)} />
 
         </SafeAreaView>
     );
@@ -62,7 +51,7 @@ const styles = StyleSheet.create({
         padding: 20,
     },
 
-    header_continer: {
+    header_container: {
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',

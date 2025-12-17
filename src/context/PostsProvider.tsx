@@ -1,15 +1,14 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 
-import { CreatePostData } from "../models/Post";
 import { createPost, subscribeToPosts } from "../services/post.service";
 import { db } from "../services/firebase";
-import { Post } from "../models/Post";
+import { Post, PostFormData } from "../models/Post";
 
 
 type PostsContextType = {
   posts: Post[];
-  createPost: (post: CreatePostData) => Promise<void>;
+  createPost: (post: PostFormData) => Promise<void>;
 };
 
 export const PostsContext = createContext<PostsContextType | null>(null);

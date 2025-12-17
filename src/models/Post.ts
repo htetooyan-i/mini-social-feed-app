@@ -8,14 +8,8 @@ export interface Post {
     createdAt: Timestamp;
 }
 
-export interface CreatePostData {
+export interface PostFormData {
   title: string;
   body: string;
-  userId: string;
-}
-
-export interface UpdatePostData {
-  title?: string;
-  body?: string;
 }
 
