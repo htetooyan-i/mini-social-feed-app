@@ -10,16 +10,15 @@ import { signIn, signUp } from '../services/auth.service';
 function AuthForm() {
 
     // set theme
-    //
     const scheme = useSystemTheme();
     const COLORS = scheme === 'dark' ? darkColors : lightColors;
 
+    // states for inputs
     const [ email, setEmail] = useState('');
     const [ password, setPassword] = useState('');
 
 
     // handle user login print alert if any error
-    //
     const handleLogin = async () => {
         try {
             await signIn(email, password)
@@ -30,7 +29,6 @@ function AuthForm() {
     }
 
     // handle user sign up print alert if any error
-    //
     const handleSignUp = async () => {
         try {
             await signUp(email, password)

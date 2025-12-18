@@ -1,10 +1,11 @@
 import { query, orderBy, addDoc, collection, doc, deleteDoc, updateDoc, onSnapshot, serverTimestamp} from "firebase/firestore";
 
 import { PostFormData } from "../models/Post";
-import { auth, db } from "./firebase";
 import { Post } from "../models/Post";
+import { auth, db } from "./firebase";
+import { deleteImages } from "./storage.service";
 
-// create new post
+// enusre user is logged in then create a new post in firebase
 //
 export const createPost = async (post: PostFormData) => {
 
@@ -17,16 +18,27 @@ export const createPost = async (post: PostFormData) => {
   await addDoc(collection(db, "posts"), {
     title: post.title,
     body: post.body,
+    images: post.images,
     userId: user.uid,
     createdAt: serverTimestamp(),
   });
 
 };
 
-// delete post from firebase
+// delete post from firebase and also delete images from storage
 //
-export const deletePost = async (postId: string) => {
-    return await deleteDoc(doc(db, 'posts', postId));
+export const deletePostWithImages = async (post: Post) => {
+  
+    await deleteDoc(doc(db, "posts", post.id));
+
+  if (post.images?.length) {
+    try {
+      await deleteImages(post.images);
+    } catch (e) {
+      console.warn("Failed to delete images", e);
+    }
+  }
+
 }
 
 // update post in firebase
@@ -45,12 +57,30 @@ export function subscribeToPosts( onPostsChange: (posts: Post[]) => void ) {
     );
 
     return onSnapshot(q, (snapshot) => {
-        const posts: Post[] = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...(doc.data() as Omit<Post, "id">),
-        }));
+      const posts: Post[] = snapshot.docs.map((doc) => {
+        const data = doc.data();
 
-        onPostsChange(posts);
+        return {
+          id: doc.id,
+          ...data,
+          images: data.images ?? [],
+        } as Post;
+      });
+
+      onPostsChange(posts);
     });
+
+    // TODO: Need to reuse this if all posts have images field
+    //
+    // return onSnapshot(q, (snapshot) => {
+    //     const posts: Post[] = snapshot.docs.map((doc) => ({
+          
+    //     id: doc.id,
+    //     ...(doc.data() as Omit<Post, "id">),
+    //     images: doc.data().images ?? [],
+    //     }));
+
+    //     onPostsChange(posts);
+    // });
 
 }

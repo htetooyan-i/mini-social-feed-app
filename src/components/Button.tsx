@@ -4,20 +4,21 @@ import { Pressable, View, Text, StyleSheet } from 'react-native';
 import { darkColors, lightColors} from '../constants/colors';
 import { useSystemTheme } from "../hooks/useSystemTheme";
 
-type Props = {
+type ButtonProps = {
     title: string,
+    disabled?: boolean,
     onPress: () => void,
 }
 
-function Button({title, onPress}: Props) {
+function Button({title, onPress, disabled = false}: ButtonProps) {
 
-    {/* Check scheme and set color set */}
+    // Check scheme and set color set
     const scheme = useSystemTheme();
     const COLORS = scheme === 'dark' ? darkColors : lightColors;
 
     return (
         <View>
-            <Pressable style={[styles.button, { backgroundColor: COLORS.secondary}]} onPress={onPress}>
+            <Pressable style={[styles.button, { backgroundColor: COLORS.secondary}]} onPress={onPress} disabled={disabled}>
                 <Text style={[styles.buttonText, { color: COLORS.text}]}>{title}</Text>
             </Pressable>
         </View>

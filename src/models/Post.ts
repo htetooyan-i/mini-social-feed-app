@@ -5,11 +5,13 @@ export interface Post {
     userId: string;
     title: string;
     body: string;
+    images: string[];
     createdAt: Timestamp;
 }
 
 export interface PostFormData {
   title: string;
   body: string;
+  images: string[];
 }
 

@@ -14,7 +14,7 @@ export type RootTabParamList = {
 export type HomeParamList = {
   Feed: undefined
   CreatePost: undefined
-  EditPost: {post: Post}
+  EditPost: {post: Post, from: string}
 }
 
 export type ProfileParamList = {

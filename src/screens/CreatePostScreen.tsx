@@ -1,26 +1,38 @@
-import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { HomeParamList } from '../navigations/types';
-import { usePosts } from "../hooks/usePosts";
-import { PostFormData } from '../models/Post';
-import { useAuth } from '../hooks/useAuth';
 import PostForm from '../components/PostForm';
+import { HomeParamList } from '../navigations/types';
+import { PostFormData } from '../models/Post';
+import { getAuthErrorMessage } from '../utils/authErrors';
+import { usePosts } from "../hooks/usePosts";
+import { uploadImages } from '../services/storage.service';
+import { useAuth } from '../hooks/useAuth';
 
 type Props = NativeStackScreenProps<HomeParamList, 'CreatePost'>
 
 function CreatePostScreen({ navigation }: Props) {
 
-    {/* Get addPost from usePosts hook */}
+    // Get addPost from usePosts hook
     const { createPost } = usePosts();
 
-    {/* Handle Create Post */}
-    const handleCreatePost = (data: {title: string, body: string}) => {
+    const { user } = useAuth();
+
+    // ensure use is logged in, carete new post using data in params and upload images to storage
+    const handleCreatePost = async (data: {title: string, body: string, images: string[]}) => {
+
+        if (!user) {
+            Alert.alert(getAuthErrorMessage("auth/no-current-user"));
+            return;
+        }
+
+        const uris = await uploadImages(user.uid, data.images);
 
         const post: PostFormData = {
             title: data.title,
             body: data.body,
+            images: uris,
         };
 
         createPost(post);
@@ -28,13 +40,14 @@ function CreatePostScreen({ navigation }: Props) {
     };
 
     return (
-        <PostForm onSubmit={handleCreatePost} submitLabel='Create Post' />
+        <View>
+            <PostForm onSubmit={handleCreatePost} submitLabel='Create Post' />
+        </View>
+
     );
 }
 
 const styles = StyleSheet.create({
-
-    // Component styles
 
     body_input_field: {
         height: 100,
@@ -54,6 +67,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         paddingVertical: 5,
     },
+
 
 
 })

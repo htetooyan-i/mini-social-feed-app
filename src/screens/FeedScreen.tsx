@@ -2,8 +2,8 @@ import { StyleSheet, View, SafeAreaView, Text, FlatList, Alert } from "react-nat
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Button from '../components/Button';
-import { darkColors, lightColors } from "../constants/colors";
 import PostCard from "../components/PostCard";  
+import { darkColors, lightColors } from "../constants/colors";
 import { HomeParamList } from "../navigations/types";
 import { usePosts } from "../hooks/usePosts";
 import { useSystemTheme } from "../hooks/useSystemTheme";

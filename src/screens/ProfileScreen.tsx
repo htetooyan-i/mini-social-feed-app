@@ -2,15 +2,16 @@ import React, { useEffect } from 'react';
 import { Text, View, SafeAreaView, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
 
+import Button from '../components/Button';
+import PostCard from '../components/PostCard';
+import { darkColors, lightColors } from '../constants/colors';
+import { Ionicons } from '@expo/vector-icons';
+import { logOut } from '../services/auth.service';
+import { Post } from '../models/Post';
+import { RootTabParamList } from "../navigations/types";
 import { useSystemTheme } from '../hooks/useSystemTheme';
 import { useAuth } from '../hooks/useAuth';
-import { darkColors, lightColors } from '../constants/colors';
 import { usePostsByUser } from '../hooks/usePostsByUser';
-import { RootTabParamList } from "../navigations/types";
-import PostCard from '../components/PostCard';
-import { Post } from '../models/Post';
-import { logOut } from '../services/auth.service';
-import Button from '../components/Button';
 
 type Props = BottomTabScreenProps<RootTabParamList, 'Profile'>;
 
@@ -21,22 +22,23 @@ function ProfileScreen({ navigation }: Props) {
     const handleEditPost = (post: Post) => {
         navigation.navigate('Home', {
             screen: "EditPost",
-            params: { post }
+            params: {
+                post,
+                from: "Profile",
+            },
         });
     }
 
     const { user, loading } = useAuth();
 
     // set COLORS set
-    //
     const scheme = useSystemTheme();
     const COLORS = scheme === "dark" ? darkColors : lightColors;
 
     // get posts created by logged user
-    //
     const posts = usePostsByUser(user?.uid)
 
-    if (loading) {
+    if (loading) { // show if loading
         return (
             <SafeAreaView style={styles.loading_container}>
                 <ActivityIndicator size="large" />
@@ -46,6 +48,7 @@ function ProfileScreen({ navigation }: Props) {
 
     return (
         <SafeAreaView style={styles.screen_container}>
+
             {/* Header Section */}
             <View style={[styles.header_continer, { backgroundColor: COLORS.primary}]}>
                 <Text style={[styles.app_title, { color: COLORS.text}]}>Social App</Text>
@@ -56,14 +59,21 @@ function ProfileScreen({ navigation }: Props) {
             <Text style={[styles.header, {color: COLORS.text}]}>{ user ? user.email : "Underfind" }</Text>
 
             {/* User's posts */}
-            <FlatList
-                style={styles.posts_container}
-                data={posts}
-                keyExtractor={item => item.id.toString()}
-                renderItem={({item}) => (
-                    <PostCard post={item} isEditable onEdit={handleEditPost}/>
-                )}
-            />
+            { posts.length > 0 ? // show posts created by current user
+                <FlatList
+                    style={styles.posts_container}
+                    data={posts}
+                    keyExtractor={item => item.id.toString()}
+                    renderItem={({item}) => (
+                        <PostCard post={item} isEditable onEdit={handleEditPost}/>
+                    )}
+                />
+                : // Show if there is no posts with current user id
+                <View style={styles.empty_screen_container}>
+                    <Ionicons name='search' size={50} style={{color: 'grey'}}/>
+                    <Text style={{color: 'grey', fontSize: 40, fontWeight: 'bold' }}>No Posts</Text>
+                </View>
+            }
 
         </SafeAreaView>
     );
@@ -74,6 +84,12 @@ const styles = StyleSheet.create({
     app_title: {
         fontSize: 24,
         fontWeight: 'bold',
+    },
+
+    empty_screen_container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center"
     },
     
     header: {

@@ -1,11 +1,12 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-import { darkColors, lightColors} from '../constants/colors';
-import { useSystemTheme } from "../hooks/useSystemTheme";
 import Button from './Button';
-import { deletePost } from '../services/post.service';
+import ImageFlatList from './ImageFlatList';
+import { darkColors, lightColors} from '../constants/colors';
+import { deletePostWithImages } from '../services/post.service';
 import { Post } from '../models/Post';
+import { useSystemTheme } from "../hooks/useSystemTheme";
 
 type PostCardProps = {
     post: Post
@@ -29,11 +30,18 @@ function PostCard({post, isEditable = false, onEdit}: PostCardProps) {
             {/* Post Body */}
             <Text style={{fontSize: 16, color: COLORS.text}}>{ post.body }</Text>
 
+            {/* Media images and vidoes */}
+            { 
+                (post.images).length > 0 && 
+                
+                <ImageFlatList images={post.images} />
+            }
+
             {/* Action Buttons */}
             {isEditable && onEdit && (
             <View style={styles.action_buttons}>
                 <Button title="Edit" onPress={() => onEdit(post)} />
-                <Button title="DELETE" onPress={() => deletePost(post.id)} />
+                <Button title="DELETE" onPress={() => deletePostWithImages(post)} />
             </View>
             )}
 
@@ -49,6 +57,20 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignSelf: "flex-end",
+    },
+
+    image: {
+        marginTop: 20,
+        marginHorizontal: 5,
+        width: 100,
+        height: 200,
+        borderRadius: 20,
+        resizeMode: "center"
+    },
+
+    media_container: {
+        flex: 1,
+        flexDirection: "row",
     },
 
     post_card: {

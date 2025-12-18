@@ -1,3 +1,4 @@
+// return user friedly error message for auth
 export function getAuthErrorMessage(error: any): string {
   const code = error?.code;
 
