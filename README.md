@@ -3,17 +3,17 @@
 A cross-platform mobile app built with React Native and Firebase that allows users to authenticate, create and view posts in a simple social feed, and manage their own posts from a profile tab.
 
 <p float="left">
-    <img src="./assets/home.png" alt="Home Screen" height="400">
-    <img src="./assets/profile.png" alt="Profile Screen" height="400">
-    <img src="./assets/edit.png" alt="Edit Post Screen" height="400">
+    <img src="./assets/home.png" alt="Home Screen" height="400" style="margin-right:12px;" >
+    <img src="./assets/profile.png" alt="Profile Screen" height="400" style="margin-right:12px;" >
+    <img src="./assets/edit.png" alt="Edit Post Screen" height="400" style="margin-right:12px;" >
     <img src="./assets/preview.png" alt="Preview Image" height="400">
 </p>
 
 
 ## Purpose
 
-This project was built to practice building a real-world mobile application using React Native, TypeScript, and Firebase.  
-The goal was to move beyond tutorials and implement a complete MVP flow including authentication, database integration, and clean app architecture.
+- This project was built to practice building a real-world mobile application using React Native, TypeScript, and Firebase.  
+- The goal was to move beyond tutorials and implement a complete MVP flow including authentication, database integration, and clean app architecture.
 
 ## Features
 
@@ -45,9 +45,11 @@ The goal was to move beyond tutorials and implement a complete MVP flow includin
     cd mini-social-feed-app
 
 3. Install dependencies:
+    ```bash
     npm install
 
 4. Start the development server:
+    ```bash
     npx expo start
 
 5. Run the app on:
