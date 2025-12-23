@@ -10,11 +10,12 @@ import { useSystemTheme } from "../hooks/useSystemTheme";
 
 type PostCardProps = {
     post: Post
+    onComments?: (postid: string) => void
     isEditable?: boolean
     onEdit?: (post: Post) => void
 }
 
-function PostCard({post, isEditable = false, onEdit}: PostCardProps) {
+function PostCard({post, onComments, isEditable = false, onEdit}: PostCardProps) {
 
 
     {/* Check scheme and set color set */}
@@ -37,6 +38,13 @@ function PostCard({post, isEditable = false, onEdit}: PostCardProps) {
                 <ImageFlatList images={post.images} />
             }
 
+            {/* Navigate to CommentScreen */}
+            { onComments && (
+                <View style={styles.comment_button}>
+                    <Button title="Comments" onPress={() => onComments(post.id)} />
+                </View>
+            )}
+
             {/* Action Buttons */}
             {isEditable && onEdit && (
             <View style={styles.action_buttons}>
@@ -56,6 +64,13 @@ const styles = StyleSheet.create({
         width: "50%",
         flexDirection: "row",
         justifyContent: "space-between",
+        alignSelf: "flex-end",
+    },
+
+    comment_button: {
+        marginTop: 20,
+        marginHorizontal: 5,
+        width: "100%",
         alignSelf: "flex-end",
     },
 

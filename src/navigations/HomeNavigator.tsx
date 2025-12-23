@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack';
 
 import CreatePostScreen from "../screens/CreatePostScreen";
+import CommentScreen from "../screens/CommentScreen";
 import EditPostScreen from "../screens/EditPostScreen"
 import FeedScreen from "../screens/FeedScreen";
 import { HomeParamList } from "./types";
@@ -32,6 +33,14 @@ const EditPostOptions: NativeStackNavigationOptions = {
   headerBackButtonDisplayMode: 'minimal',
 };
 
+// screen options for Comments screen
+//
+const CommentsOptions: NativeStackNavigationOptions = {
+  title: 'Comments',
+  presentation: 'card',
+  headerBackButtonDisplayMode: 'minimal',
+};
+
 function HomeTabNavigator() {
 
   return (
@@ -39,6 +48,7 @@ function HomeTabNavigator() {
         <Stack.Screen name="Feed" component={FeedScreen} options={FeedOptions} />
         <Stack.Screen name="CreatePost" component={CreatePostScreen} options={CreatePostOptions} />
         <Stack.Screen name="EditPost" component={EditPostScreen} options={EditPostOptions} />
+        <Stack.Screen name="Comments" component={CommentScreen} options={CommentsOptions} />
       </Stack.Navigator>
   );
 }

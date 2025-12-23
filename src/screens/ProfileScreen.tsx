@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { Text, View, SafeAreaView, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
 import { BottomTabScreenProps } from "@react-navigation/bottom-tabs";
+import { Text, View, StyleSheet, FlatList, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Button from '../components/Button';
 import PostCard from '../components/PostCard';
@@ -26,6 +27,14 @@ function ProfileScreen({ navigation }: Props) {
                 post,
                 from: "Profile",
             },
+        });
+    }
+
+    // navigate to CommentScreen
+    const handleComments = (postid: string) => {
+        navigation.navigate('Home', {
+            screen: "Comments",
+            params: { postid },
         });
     }
 
@@ -65,7 +74,7 @@ function ProfileScreen({ navigation }: Props) {
                     data={posts}
                     keyExtractor={item => item.id.toString()}
                     renderItem={({item}) => (
-                        <PostCard post={item} isEditable onEdit={handleEditPost}/>
+                        <PostCard post={item} onComments={handleComments} isEditable onEdit={handleEditPost}/>
                     )}
                 />
                 : // Show if there is no posts with current user id

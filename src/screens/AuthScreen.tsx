@@ -1,17 +1,25 @@
 import React from 'react';
-import { View, SafeAreaView, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import AuthForm  from '../components/AuthForm';
 import { darkColors, lightColors } from '../constants/colors';
 import { useSystemTheme } from '../hooks/useSystemTheme';
+import Button from '../components/Button';
+import { AuthParamList } from '../navigations/types';
 
-function AuthScreen() {
+type Props = NativeStackScreenProps<AuthParamList, 'Auth'>;
+
+function AuthScreen({ navigation }: Props) {
 
     {/* set theme */}
     const scheme = useSystemTheme();
     const COLORS = scheme === 'dark' ? darkColors : lightColors;
 
-
+    const handleResetPassword = () => {
+        navigation.navigate('ResetPassword')
+    }
 
     return (
         <SafeAreaView>
@@ -22,7 +30,10 @@ function AuthScreen() {
             </View>
 
             {/* Login and signup form */}
-            <AuthForm />      
+            <AuthForm />     
+
+            {/* Reset Password */} 
+            <Button title="Reset Password" onPress={handleResetPassword} />
 
         </SafeAreaView>
     );

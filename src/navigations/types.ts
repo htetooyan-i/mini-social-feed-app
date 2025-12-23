@@ -6,6 +6,11 @@ export type RootStackParamList = {
   Main: undefined
 };
 
+export type AuthParamList = {
+  Auth: undefined
+  ResetPassword: undefined
+}
+
 export type RootTabParamList = {
   Home: NavigatorScreenParams<HomeParamList>
   Profile: undefined
@@ -15,6 +20,7 @@ export type HomeParamList = {
   Feed: undefined
   CreatePost: undefined
   EditPost: {post: Post, from: string}
+  Comments: {postid: String}
 }
 
 export type ProfileParamList = {

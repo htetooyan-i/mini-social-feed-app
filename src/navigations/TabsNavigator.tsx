@@ -7,7 +7,6 @@ import HomeTabNavigator from "./HomeNavigator";
 import ProfileScreen from '../screens/ProfileScreen';
 import { useSystemTheme } from '../hooks/useSystemTheme';
 import { darkColors, lightColors } from '../constants/colors';
-import { Platform } from 'react-native';
 
 // initalize tab navigator
 //
@@ -15,7 +14,8 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 // tab bar options for all tabs
 const tabBarOptions: BottomTabNavigationOptions = {
-    tabBarPosition: Platform.OS === "ios" ? "bottom" : "top"
+    // tabBarPosition: Platform.OS === "ios" ? "bottom" : "top" {//TODO: if bottom tabBar is at the top, it create a gap between tab bar and content}
+    headerShown: false,
 }
 
 // TODO: need to change this when use native tab bar
@@ -54,7 +54,6 @@ function TabsNavigator() {
       <Tab.Navigator screenOptions={{
         ...tabBarOptions,
         tabBarActiveTintColor: COLORS.secondary,
-        headerShown: false,
       }}>
           <Tab.Screen name="Home" component={HomeTabNavigator} options={homeOptions}/>
           <Tab.Screen name="Profile" component={ProfileScreen}  options={profileOptions}/>

@@ -24,8 +24,10 @@
     "ios": {
       "supportsTablet": true,
       "infoPlist": {
-        "UIViewControllerBasedStatusBarAppearance": true
-      }
+        "UIViewControllerBasedStatusBarAppearance": true,
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "bundleIdentifier": "com.htetooyan.minisocialapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -33,10 +35,25 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.htetooyan.minisocialapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2fdd571f-716e-4eba-b819-db2503a14253"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/2fdd571f-716e-4eba-b819-db2503a14253"
     }
   }
 }

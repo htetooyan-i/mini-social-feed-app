@@ -1,4 +1,5 @@
-import { StyleSheet, View, SafeAreaView, Text, FlatList, Alert } from "react-native";
+import { StyleSheet, View, Text, FlatList, Alert } from "react-native";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 import Button from '../components/Button';
@@ -19,6 +20,11 @@ function FeedScreen({ navigation }: Props) {
     const scheme = useSystemTheme();
     const COLORS = scheme === 'dark' ? darkColors : lightColors;
 
+    // navigate to CommentScreen
+    const handleComments = (postid: string) => {
+        navigation.navigate('Comments', { postid });
+    }
+
     return (
         <SafeAreaView style={[styles.screen_container, { backgroundColor: COLORS.background}]}>
             {/* Header Section */}
@@ -33,7 +39,7 @@ function FeedScreen({ navigation }: Props) {
                 data={posts}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({item}) => (
-                    <PostCard post={item}/>
+                    <PostCard post={item} onComments={handleComments} />
                 )}
             />
 

@@ -2,10 +2,10 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
 import { useColorScheme } from "react-native";
 
-import AuthScreen from "../screens/AuthScreen";
 import { useAuth } from "../hooks/useAuth";
 import { RootStackParamList } from "./types";
 import TabsNavigator from "./TabsNavigator";
+import AuthNavigator from "./AuthNavigator";
 
 // initalize stack navigator
 //
@@ -30,7 +30,7 @@ function AppNavigator() {
                 </>
                 
               ) : ( // show if user hasn't logged in
-                <Stack.Screen name="Auth" component={AuthScreen} options={{headerShown: false}}/>
+                <Stack.Screen name="Auth" component={AuthNavigator} options={{headerShown: false}}/>
               )
             }
               
