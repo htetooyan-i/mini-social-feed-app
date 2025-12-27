@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 
 import { RootTabParamList } from "./types";
 import HomeTabNavigator from "./HomeNavigator";
-import ProfileScreen from '../screens/ProfileScreen';
+import ProfileTabNavigator from "./ProfileTabNavigator";
 import { useSystemTheme } from '../hooks/useSystemTheme';
 import { darkColors, lightColors } from '../constants/colors';
 
@@ -56,7 +56,7 @@ function TabsNavigator() {
         tabBarActiveTintColor: COLORS.secondary,
       }}>
           <Tab.Screen name="Home" component={HomeTabNavigator} options={homeOptions}/>
-          <Tab.Screen name="Profile" component={ProfileScreen}  options={profileOptions}/>
+          <Tab.Screen name="Profile" component={ProfileTabNavigator}  options={profileOptions}/>
       </Tab.Navigator>
   );
 }

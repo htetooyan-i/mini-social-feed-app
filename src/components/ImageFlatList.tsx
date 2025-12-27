@@ -35,7 +35,7 @@ function ImageFlatList({images, removeImage = undefined, editable = false}: Imag
 
                     <View style={styles.imageWrapper}>
                         <Pressable onPress={() => handlePreview(item)}>
-                            <Image source={{uri: item}} style={styles.image} />
+                            <Image source={{uri: item, cache: 'force-cache'}} style={styles.image} />
                         </Pressable>
                         {
                             editable && removeImage && (
@@ -56,7 +56,7 @@ function ImageFlatList({images, removeImage = undefined, editable = false}: Imag
             <Modal visible={!!previewUri} transparent={true} animationType="fade">
                 <Pressable style={styles.previewOverlay} onPress={closePreview}>
                     <Image
-                    source={{ uri: previewUri! }}
+                    source={{ uri: previewUri!, cache: 'force-cache' }}
                     style={styles.previewImage}
                     resizeMode="contain"
                     onLoadStart={() => setLoading(true)}

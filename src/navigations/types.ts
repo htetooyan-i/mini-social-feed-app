@@ -2,8 +2,8 @@ import { NavigatorScreenParams } from "@react-navigation/native";
 import { Post } from "../models/Post";
 
 export type RootStackParamList = {
-  Auth: undefined
-  Main: undefined
+  AuthStack: undefined
+  MainStack: undefined
 };
 
 export type AuthParamList = {
@@ -13,7 +13,7 @@ export type AuthParamList = {
 
 export type RootTabParamList = {
   Home: NavigatorScreenParams<HomeParamList>
-  Profile: undefined
+  Profile: NavigatorScreenParams<ProfileParamList>
 };
 
 export type HomeParamList = {
@@ -24,5 +24,6 @@ export type HomeParamList = {
 }
 
 export type ProfileParamList = {
-  Profile: undefined
+  ProfilePosts: undefined,
+  ChangePassword: undefined
 }

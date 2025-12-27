@@ -26,11 +26,11 @@ function AppNavigator() {
             {
               user ? ( // show if user is not null
                 <>
-                  <Stack.Screen name="Main" component={TabsNavigator} options={{ headerShown: false }}/>
+                  <Stack.Screen name="MainStack" component={TabsNavigator} options={{ headerShown: false }}/>
                 </>
                 
               ) : ( // show if user hasn't logged in
-                <Stack.Screen name="Auth" component={AuthNavigator} options={{headerShown: false}}/>
+                <Stack.Screen name="AuthStack" component={AuthNavigator} options={{headerShown: false}}/>
               )
             }
               

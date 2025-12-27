@@ -13,10 +13,10 @@ type Props = NativeStackScreenProps<HomeParamList, 'Feed'>;
 
 function FeedScreen({ navigation }: Props) {
 
-    {/* use posts state */}
+    // use posts state
     const { posts } = usePosts();
 
-    {/* Check scheme and set color set */}
+    // Check scheme and set color set
     const scheme = useSystemTheme();
     const COLORS = scheme === 'dark' ? darkColors : lightColors;
 
